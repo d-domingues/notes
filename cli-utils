@@ -1,0 +1,72 @@
+// cli's to install globaly
+npm i -g @angular/cli	(ng new <proj-name>)
+npm i -g @ionic/cli		(ionic start <proj-name>)
+npm i -g firebase-tools	(firebase init hosting)
+
+// download and run node js LSR installer
+node -v
+npm install npm@latest -g
+npm -v
+// node_modules global directory 'C:\Users\dlopesdo\AppData\Roaming\npm'
+npm install @angular/cli -g
+ng --version (angular cli version)
+npm update -g
+
+// in the project local node_modules dependencies
+// other packages dependencies update
+npm outdated (list of outdated versions)
+ng update
+
+--------------------------------
+if ng commands do not work: close previews open new one or use another comand line 'git bash p.e.'
+--------------------------------
+
+ng update @angular/cdk
+ng update @angular/cli
+ng update @angular/core
+
+// update cli
+npm uninstall -g angular-cli @angular/cli
+npm cache clean
+npm install -g @angular/cli@latest
+
+// create ionic app
+ionic start <proj-name> tabs --type=angular --capacitor
+
+// Add Cordova iOS and Android Platforms
+ionic cordova platform add ios
+ionic cordova platform add android
+
+// camera API for ionic
+npm install @ionic/pwa-elements
+
+---- deploy at firebase hosting
+ng add @angular/fire@next
+ng run <proj-name>:deploy
+or
+firebase init hosting
+
+ionic build --prod
+firebase deploy
+
+// global directory -g
+C:\Users\dlopesdo\AppData\Roaming\npm
+
+-----
+ng new <proj-name>
+cd <proj-name>
+
+npm i @capacitor/core @capacitor/cli
+npx cap init	
+	package id: com.<brand-name>.<app-name> (em minusculas) exp com.google.genericapps
+	at capacitor.config file change webDir to "dist"
+ng build --prod		or 		ionc build
+npx cap serve (to serve as a pwa in the browser)
+npx cap add android (creates an 'android' folder to be open with android studio)
+	... add ios (for ios)
+	... add electron -> cd electron -> npm i electron-packager -g -> electron-packager . --platform=win32 (for windows) --platform=darwin (for MacOS)
+
+
+ng add @angular/pwa
+
+
