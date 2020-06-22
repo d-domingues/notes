@@ -1,0 +1,18 @@
+VS CODE SETTING 
+{
+	"editor.tabSize": 4,
+	"prettier.tabWidth": 0,
+	"prettier.useTabs": true,
+}
+
+
+------------------------------------
+TSLINT SETTINGS
+"rules": {
+    "indent": [true, "tabs", 2],
+    "eofline": false,
+    "semicolon": false,
+	"variable-name": false,
+	"use-lifecycle-interface": false,
+	"variable-name": false,
+}
