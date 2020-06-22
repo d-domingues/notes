@@ -1,0 +1,16 @@
+<div *ngIf="hero" class="name">{{hero.name}}</div>
+
+The asterisk is "syntactic sugar" for something a bit more complicated. Internally, Angular translates the *ngIf attribute into a <ng-template> element, wrapped around the host element, like this.
+
+<ng-template [ngIf]="hero">
+  <div class="name">{{hero.name}}</div>
+</ng-template>
+
+@Directive({ selector: '[ngIf]' })
+export class NgIfDirective {
+	constructor(tmpl: TemplateRef<any>) {
+		// tmpl holds the host element as a TemplateRef obj
+		// to be injected in a ViewContainerRef
+	}
+}
+
