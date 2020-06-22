@@ -1,0 +1,49 @@
+<wizard>
+	<step-one wizardStep></step-one>
+	<step-two wizardStep></step-two>
+	<step-one wizardStep></step-one>
+</wizard>
+
+
+// WIZARD DIRECTIVE
+@Directive({ selector: '[wizardStep]' })
+export class WizardStep {}
+
+// BASE
+export abstract class BaseComp {
+	abstract print(): void
+}
+
+// FIRST
+@Component({
+	selector: 'step-one',
+	template: '<div>FIRST</div>',
+	providers: [{ provide: BaseComp, useExisting: forwardRef(() => StepOne) }]
+})
+export class StepOne extends BaseComp {
+	print = () => console.log('test ----> 1')
+}
+
+// SECOND
+@Component({
+	selector: 'step-two',
+	template: '<div>SECOND</div>',
+	providers: [{ provide: BaseComp, useExisting: forwardRef(() => StepTwo) }]
+})
+export class StepTwo extends BaseComp {
+	print = () => console.log('test ----> 2')
+}
+
+// PARENT
+@Component({
+	selector: 'wizard',
+	template: '<ng-content></ng-content>'
+})
+export class Wizard {
+	@ContentChildren(WizardStep, { read: BaseComp })
+	steps: QueryList<BaseComp>
+
+	ngAfterContentInit() {
+		this.steps.changes.subscribe()
+	}
+}
