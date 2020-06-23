@@ -12,9 +12,12 @@ npm install @angular/cli -g
 ng --version (angular cli version)
 npm update -g
 
+// check global packages versions
+npm list -g --depth=0
+
 // in the project local node_modules dependencies
 // other packages dependencies update
-npm outdated (list of outdated versions)
+npm outdated (list of outdated versions), use flag -g to check the global packages
 ng update
 
 --------------------------------
