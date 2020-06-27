@@ -11,6 +11,22 @@ trigger('listAnimation', [
 		query(':leave', animate(2000, style({ opacity: 0 })), { optional: true })
 	])
 ])
+
+
+// when adding/removing an element @flyInOut animation
+ animations: [
+    trigger('flyInOut', [
+      transition(':enter', [ // on entering the template
+        style({ transform: 'translateX(-100%)' }), // to the element is applied a beginning style
+        animate(1000), // the style is gradually removed during 1000 ms
+      ]),
+      transition(
+        ':leave',
+        // on leaving the template, during 1000 ms the style is gradually being applied
+        animate(1000, style({ transform: 'translateX(100%)' }))
+      ),
+    ]),
+  ],
 		
 <div [@listAnimation]="items.length">
   <div *ngFor="let item of items">
