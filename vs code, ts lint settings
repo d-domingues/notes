@@ -9,6 +9,7 @@ VS CODE SETTING
 ------------------------------------
 TSLINT SETTINGS
 "rules": {
+    "no-string-literal": false,
     "indent": [true, "tabs", 2],
     "eofline": false,
     "semicolon": false,
