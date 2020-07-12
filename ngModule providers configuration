@@ -1,0 +1,101 @@
+import { HTTP_INTERCEPTORS, HttpClientModule, HttpClient } from '@angular/common/http';
+import {
+  Injectable,
+  InjectionToken,
+  ModuleWithProviders,
+  NgModule,
+  Self,
+} from '@angular/core';
+import { environment } from 'src/environments/environment';
+
+const ENV_SERVICE = new InjectionToken<string>('EnvService');
+const RETRIES = new InjectionToken<string>('Retries');
+
+@Injectable()
+class ServiceA {
+  constructor(forServA: ForServA) {}
+}
+@Injectable()
+class ServiceB {
+  constructor(forServB: ForServB) {}
+}
+
+@Injectable()
+class ForServA {}
+@Injectable()
+class ForServB {}
+
+const factory = (forServA: ForServA, forServB: ForServB) =>
+  environment.production ? new ServiceA(forServA) : new ServiceB(forServB);
+
+@NgModule({
+  providers: [
+    // 1: this is equivalent to the example 2
+    ServiceA,
+    // 2: creates a another new instance of ServiceA automatically, possible statefull bugs
+    {
+      provide: ServiceA,
+      useClass: ServiceA,
+    },
+    // 3: the literal value of the token RETRIES is 3
+    {
+      provide: RETRIES,
+      useValue: 3,
+    },
+    // 4: uses a factory function to instanciate de service
+    {
+      provide: ENV_SERVICE,
+      useFactory: factory,
+      deps: [ForServA, ForServB],
+    },
+    // 5: uses the same previews instanciation of ServiceA aliased (state coherence)
+    {
+      provide: ENV_SERVICE,
+      useExisting: ServiceA,
+    },
+    // 6: if on example 3 multy param is also set to true the RETRIES will not override the value 3,
+    // instead it will return return all the values [3, 8]
+    {
+      provide: RETRIES,
+      useValue: 8,
+      multi: true,
+    },
+  ],
+})
+class InjectorTypesModule {}
+
+// -------------------
+@Injectable()
+class RetryInterceptor {}
+
+@NgModule({
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: RetryInterceptor, multi: true },
+    { provide: RETRIES, useValue: 3 }, // a default value of retries
+  ],
+})
+class RetryModule {
+  // HttpInterceptors only work if HttpClient is in the same injector,
+  // a error is thrown if the user forgets to do it
+  constructor(@Self() client: HttpClient) {}
+
+  static withRetries(retries: number): ModuleWithProviders {
+    return {
+      ngModule: RetryModule,
+      providers: [{ provide: RETRIES, useValue: retries }],
+    };
+  }
+}
+
+@NgModule({
+  imports: [
+    HttpClientModule,
+    // new way: ModuleWithProviders function: defines the number of retries through module configuration
+    RetryModule.withRetries(2),
+  ],
+  providers: [
+    // old way: this would override the number of retries defined on the RetryModule
+    { provide: RETRIES, useValue: 2 },
+  ],
+})
+class PageModule {}
