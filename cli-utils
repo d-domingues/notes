@@ -1,6 +1,6 @@
 // cli's to install globaly
 npm i -g @angular/cli	(ng new <proj-name>)
-npm i -g @ionic/cli		(ionic start <proj-name>)
+npm i -g @ionic/cli	(ionic start <proj-name>)
 npm i -g firebase-tools	(firebase init hosting)
 
 // download and run node js LSR installer
@@ -9,7 +9,7 @@ npm install npm@latest -g
 npm -v
 // node_modules global directory 'C:\Users\dlopesdo\AppData\Roaming\npm'
 npm install @angular/cli -g
-ng --version (angular cli version)
+ng --version (angular cli version) ; ionic --version (for ionic)
 npm update -g
 
 // check global packages versions
