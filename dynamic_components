@@ -1,0 +1,7 @@
+  constructor(private cfr: ComponentFactoryResolver, private vcr: ViewContainerRef) {
+    const cf = this.cfr.resolveComponentFactory<any>(Component);
+    const injector = Injector.create({ providers: [{ provide: 'name', useValue: 'David' }] });
+
+    const compRef1 = this.vcr.createComponent(cf, null, injector);
+    const compRef2 = this.cfr.resolveComponentFactory(Component).create(injector);
+  }
