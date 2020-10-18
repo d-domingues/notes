@@ -54,7 +54,7 @@ const factory = (forServA: ForServA, forServB: ForServB) =>
       useExisting: ServiceA,
     },
     // 6: if on example 3 multy param is also set to true the RETRIES will not override the value 3,
-    // instead it will return return all the values [3, 8]
+    // instead it will return all the instances of RETRIES: [3, 8]
     {
       provide: RETRIES,
       useValue: 8,
