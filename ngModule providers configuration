@@ -99,3 +99,42 @@ class RetryModule {
   ],
 })
 class PageModule {}
+
+
+-------Private Providers example-------
+// token to access a stream with the information you need
+export const ORGANIZATION_INFO = new InjectionToken<Observable<Organization>>(
+  'A stream with current organization information'
+);
+
+export const ORGANIZATION_PROVIDERS: Provider[] = [
+  {
+    provide: ORGANIZATION_INFO,
+    deps: [ActivatedRoute, OrganizationService],
+    useFactory: organizationFactory,
+  },
+];
+
+export function organizationFactory(
+  { params }: ActivatedRoute,
+  organizationService: OrganizationService
+): Observable<Organization> {
+  return params.pipe(
+    switchMap((params) => {
+      const id = params.get('orgId');
+
+      return organizationService.getOrganizationById$(id);
+    })
+  );
+}
+
+@Component({
+   selector: 'organization',
+   templateUrl: 'organization.template.html',
+   styleUrls: ['organization.style.less'],
+   changeDetection: ChangeDetectionStrategy.OnPush,
+   providers: [ORGANIZATION_PROVIDERS],
+})
+export class OrganizationComponent {
+   constructor(@Inject(ORGANIZATION_INFO) readonly organization$: Observable<Organization>) {}
+}
