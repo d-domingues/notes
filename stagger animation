@@ -1,4 +1,21 @@
 // add element to list animation
+@Component({
+  ...
+  template: `
+      <button (click)="onClick()">Add Element</button>
+      <div @fade *ngFor="let e of elements; trackBy: getElemId"> {{ e.name }} </div>
+  `,
+  animations: [
+    trigger('fade', [
+      transition(':enter', [style({ opacity: 0, transform: 'translateY(5px)' }), animate(500)]),
+      transition(':leave', animate(500, style({ opacity: 0 }))),
+    ]),
+  ],
+})
+export class HomeAppliances { ... }
+
+
+// list stagger animation
 trigger('listAnimation', [
 	transition('* => *', [
 		query(
@@ -33,3 +50,6 @@ trigger('listAnimation', [
       ),
     ]),
   ],
+  
+  
+  
