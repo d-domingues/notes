@@ -1,3 +1,4 @@
+// add element to list animation
 trigger('listAnimation', [
 	transition('* => *', [
 		query(
@@ -11,7 +12,12 @@ trigger('listAnimation', [
 		query(':leave', animate(2000, style({ opacity: 0 })), { optional: true })
 	])
 ])
-
+		
+<div [@listAnimation]="items.length">
+  <div *ngFor="let item of items">
+    {{ item }}
+  </div>
+</div>
 
 // when adding/removing an element @flyInOut animation
  animations: [
@@ -27,9 +33,3 @@ trigger('listAnimation', [
       ),
     ]),
   ],
-		
-<div [@listAnimation]="items.length">
-  <div *ngFor="let item of items">
-    {{ item }}
-  </div>
-</div>
