@@ -66,3 +66,43 @@ function slideTo(direction) {
     // query(':enter', animateChild()),
   ];
 }
+
+
+// card-flip
+@Component({
+  selector: 'flip-card',
+  template: `
+    <div class="card-wrapper" (click)="cardFlipped = !cardFlipped" [@cardFlip]="cardFlipped">
+      <div class="face front">FRONT</div>
+      <div class="face back">BACK</div>
+    </div>
+  `,
+  styles: [
+    `
+      .card-wrapper {
+        transform-style: preserve-3d;
+      }
+
+      .face {
+        position: absolute;
+        height: 100%;
+        backface-visibility: hidden;
+      }
+
+      .front {
+        transform: rotateY(180deg);
+      }
+    `,
+  ],
+  animations: [
+    trigger('cardFlip', [
+      state('false', style({ transform: 'none' })),
+      state('true', style({ transform: 'rotateY(180deg)' })),
+      transition('false => true', animate('600ms ease-out')),
+      transition('true => false', animate('600ms ease-out')),
+    ]),
+  ],
+})
+export class FlipCard {
+  cardFlipped = false;
+}
