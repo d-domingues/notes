@@ -79,6 +79,11 @@ function slideTo(direction) {
   `,
   styles: [
     `
+      :host {
+        display: block;
+        perspective: 600px;
+      }
+    
       .card-wrapper {
         transform-style: preserve-3d;
       }
