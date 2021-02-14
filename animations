@@ -6,39 +6,43 @@
     ]),
   ],
 
-
-import { animate, group, query, style, transition, trigger } from '@angular/animations';
-
-export const fader = trigger('routeAnimations', [
-  transition('* <=> *', [
-    // Set a default  style for enter and leave
-    query(
-      ':enter, :leave',
-      [
-        style({
-          position: 'absolute',
-          left: 0,
-          width: '100%',
-          opacity: 0,
-          transform: 'scale(0) translateY(100%)',
-        }),
-      ],
-      { optional: true } // in case of theleaving component isn't resent
-    ),
-    // Animate the new page in
-    query(
-      ':enter',
-      [
-        animate(
-          '600ms ease',
-          style({ opacity: 1, transform: 'scale(1) translateY(0)' })
+// fade page transitions
+@Component({
+  selector: 'dashboard',
+  animations: [
+    trigger('routerAnimation', [
+      transition('* <=> *', [
+        // TO (styles)
+        query(
+          ':enter, :leave',
+          style({
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            width: '100%',
+          }),
+          { optional: true }
         ),
-      ],
-      { optional: true }
-    ),
-  ]),
-]);
+        query(':enter', style({ opacity: 0, transform: 'scale(0.8)' }), { optional: true }),
+        // FROM (styles) with an animation
+        group([
+          query(':leave', animate('0.8s ease-out', style({ opacity: 0, transform: 'scale(0.8)' })), {
+            optional: true,
+          }),
+          query(':enter', animate('0.8s ease-out', style({ opacity: 1, transform: 'scale(1)' })), { optional: true }),
+        ]),
+      ]),
+    ]),
+  ],
+  template: `
+    <div [@routerAnimation]="outlet?.activatedRouteData">
+      <router-outlet #outlet="outlet"></router-outlet>
+    </div>
+  `,
+})
+export class DashboardPage {}
 
+// slide page transitions
 export const slider = trigger('routeAnimations', [
   transition('* => 1', slideTo('left')),
   transition('* => 4', slideTo('right')),
