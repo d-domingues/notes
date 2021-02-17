@@ -20,6 +20,9 @@ npm list -g --depth=0
 npm outdated (list of outdated versions), use flag -g to check the global packages
 ng update
 
+// update the outdated packages the maximum version of the package that satisfies the semver range
+npm update --save/--save-dev
+
 --------------------------------
 if ng commands do not work: close previews open new one or use another comand line 'git bash p.e.'
 --------------------------------
