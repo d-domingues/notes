@@ -124,3 +124,27 @@ function slideTo(direction) {
 export class FlipCard {
   cardFlipped = false;
 }
+
+// toggle 
+@Component({
+  ...
+  animations: [
+    trigger('toggle', [
+      state('true', style({ height: '*' })),
+      state('false', style({ opacity: 0, height: 0 })),
+      transition('true => false', animate('400ms ease-in-out')),
+      transition('false => true', animate('400ms ease-in-out')),
+    ]),
+  ],
+  template: `
+    <button (click)="showOpts = !showOpts"></button>
+    <div [@toggle]="showOpts">
+      <div *ngFor="let item of items"> {{ item }} </div>
+    </div>
+  `,
+})
+export class TogglerComp {
+  showOpts = false;
+}
+
+
