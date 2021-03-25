@@ -130,8 +130,8 @@ export class FlipCard {
   ...
   animations: [
     trigger('toggle', [
-      state('true', style({ height: '*' })),
-      state('false', style({ opacity: 0, height: 0 })),
+      state('true', style({ overflow: 'hidden', height: '*' })),
+      state('false', style({ overflow: 'hidden', opacity: 0, height: 0 })),
       transition('true => false', animate('400ms ease-in-out')),
       transition('false => true', animate('400ms ease-in-out')),
     ]),
