@@ -1,5 +1,5 @@
 // cli's to install globaly
-npm i -g @angular/cli	(ng new <proj-name>)
+npm i -g @angular/cli	(ng new <proj-name>)https://github.com/d-domingues/notes/blob/master/cli-utils
 npm i -g @ionic/cli	(ionic start <proj-name>)
 npm i -g firebase-tools	(firebase init hosting)
 
@@ -51,6 +51,7 @@ ng add @angular/fire@next
 ng run <proj-name>:deploy
 or
 firebase init hosting
+(Overwrite index.html already exists?) => no 
 
 ionic build --prod
 firebase deploy
