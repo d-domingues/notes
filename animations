@@ -116,8 +116,7 @@ function slideTo(direction) {
     trigger('cardFlip', [
       state('false', style({ transform: 'none' })),
       state('true', style({ transform: 'rotateY(180deg)' })),
-      transition('false => true', animate('600ms ease-out')),
-      transition('true => false', animate('600ms ease-out')),
+      transition('false <=> true', animate('600ms ease-out')),
     ]),
   ],
 })
