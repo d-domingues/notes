@@ -1,0 +1,46 @@
+ITERATORS
+
+const arr = (start: number, end: number) => {
+  for (var i = start, list = []; i < end; list.push(i), i++);
+  return list;
+};
+
+arr(5, 10).forEach((n) => console.log(n));
+
+/////////////////
+
+const range = (start: number, end: number) => ({
+  [Symbol.iterator]: () => ({
+    next: () => ({ value: start++, done: start > end }),
+  }),
+});
+
+Array.from(range(10, 20)).forEach((n: number) => {
+  console.log(n);
+});
+
+((s: number, e: number) => {
+  for (const n of range(s, e)) console.log(n);
+})(5, 10);
+
+//////////////////
+
+let n = 0;
+for (const value of { [Symbol.iterator]: () => ({ aaa: 0, next: () => ({ value: (n += 5), done: n > 100 }) }) }) {
+  console.log(value);
+}
+
+for (const value of {
+  num: 0,
+  [Symbol.iterator]() {
+    this.num++;
+    return {
+      next: () => {
+        this.num++;
+        return { value: ++this.num, done: this.num > 20 };
+      },
+    };
+  },
+}) {
+  console.log(value);
+}
