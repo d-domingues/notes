@@ -48,8 +48,8 @@ export function getGifs(control: FormControl, settings$: Observable<{ perPage: n
                 //conditiion to validate data
                 const filteredGifs = gifs.filter((g) => true);
 
-                const tryAgain = idx < 10 && gifs.length && requieredQtty > 0;
                 requieredQtty = requieredQtty - filteredGifs.length;
+                const tryAgain = idx < 10 && gifs.length && requieredQtty > 0;
 
                 if (!tryAgain) pagination$.complete();
 
