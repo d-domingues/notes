@@ -1,0 +1,83 @@
+import { HttpClient } from '@angular/common/http';
+import { FormControl } from '@angular/forms';
+import {
+    BehaviorSubject,
+    catchError,
+    combineLatest,
+    concatMap,
+    debounceTime,
+    defer,
+    distinctUntilChanged,
+    EMPTY,
+    expand,
+    Observable,
+    scan,
+    startWith,
+    switchMap,
+    tap,
+} from 'rxjs';
+
+const initialPaginationState = {
+  after: null,
+  totalFound: 0,
+  retries: 0,
+  infiniteScroll: null,
+};
+
+const pagination$ = new BehaviorSubject(initialPaginationState);
+
+export function getGifs(control: FormControl, settings$: Observable<{ perPage: number }>, http: HttpClient) {
+  return combineLatest([
+    control.valueChanges.pipe(
+      debounceTime(400),
+      distinctUntilChanged(),
+      tap(() => pagination$.next({ ...initialPaginationState })),
+      startWith('gifs')
+    ),
+    settings$,
+  ]).pipe(
+    switchMap(([queryText, settings]) =>
+      pagination$.pipe(
+        concatMap((pagination) => {
+          let requieredQtty = settings.perPage;
+
+          return defer(() =>
+            fetchData(http, settings, queryText, pagination).pipe(
+              // recursively requests for gifts until there are enough per page
+              expand((gifs, idx) => {
+                //conditiion to validate data
+                const filteredGifs = gifs.filter((g) => true);
+
+                const tryAgain = idx < 10 && gifs.length && requieredQtty > 0;
+                requieredQtty = requieredQtty - filteredGifs.length;
+
+                if (!tryAgain) pagination$.complete();
+
+                return tryAgain
+                  ? fetchData(http, settings, queryText, pagination)
+                  : // stops recursive resuests to fill up the gifs per page
+                    EMPTY;
+              })
+            )
+          );
+        }),
+        scan((prev, next) => [...prev, ...next])
+      )
+    )
+  );
+}
+
+function fetchData(http: HttpClient, settings: any, queryText: string, pagination: any) {
+  return http
+    .get<any[]>(`httpps://www...${settings.sort}/${queryText}?after=${pagination.after}....`)
+    .pipe(catchError(() => EMPTY));
+}
+
+function nextPage(scrollEv: Event, after: string) {
+  pagination$.next({
+    after,
+    totalFound: 0,
+    retries: 0,
+    infiniteScroll: scrollEv.target,
+  });
+}
