@@ -23,6 +23,13 @@ ng update
 // update the outdated packages the maximum version of the package that satisfies the semver range
 npm update --save/--save-dev
 
+// update patch
+npm i <package>@~5.6.0 // will install untill 5.6.99999
+// update minor
+npm i <package>@^5.6.0 // will install untill 5.999999.99999
+// update in a range
+npm i <package>@">5.6.0 <7.0.0"
+
 --------------------------------
 if ng commands do not work: close previews open new one or use another comand line 'git bash p.e.'
 --------------------------------
