@@ -30,6 +30,11 @@ npm i <package>@^5.6.0 // will install untill 5.999999.99999
 // update in a range
 npm i <package>@">5.6.0 <7.0.0"
 
+## gradle
+1) download gradle binary-only version
+2) copy unziped files to "C:\Users\ddomi\.gradle" (the default path for android studio global gradle instalation)
+3) create the path environment variable to the /bin folder
+
 --------------------------------
 if ng commands do not work: close previews open new one or use another comand line 'git bash p.e.'
 --------------------------------
