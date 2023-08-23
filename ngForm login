@@ -1,0 +1,44 @@
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { AuthLibService } from 'auth-lib';
+
+@Component({
+  selector: 'app-login',
+  template: `
+      <form
+        #loginForm="ngForm"
+        novalidate
+        (ngSubmit)="login(loginForm)"
+        (keyup.enter)="login(loginForm)"
+      >
+        <input
+          type="text"
+          placeholder="Username"
+          type="text"
+          name="user"
+          [(ngModel)]="localStorage.username"
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          type="password"
+          name="password"
+          ngModel
+          required
+        />
+        <div class="buttons">
+          <button class="register-button">Register</button>
+          <button type="submit" class="login-button">Login</button>
+        </div>
+      </form>
+  `,
+})
+export class LoginComponent {
+  constructor(private service: AuthLibService) {}
+
+  login(form: NgForm) {
+    const { user, password } = form.value;
+    this.service.login(user, password);
+  }
+}
