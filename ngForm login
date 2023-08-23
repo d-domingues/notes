@@ -39,7 +39,13 @@ export class AuthLibService {
           />
           <div class="buttons">
             <button class="register-button">Register</button>
-            <button type="submit" class="login-button">Login</button>
+             <button
+              type="submit"
+              class="login-button"
+              [disabled]="loginForm.invalid"
+            >
+              Login
+            </button>
           </div>
         </form>
   `,
