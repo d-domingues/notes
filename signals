@@ -1,0 +1,12 @@
+signals -> reactivity
+obs$ -> async
+
+USE CASES
+subject$.next(...) -> signal.set(...)
+
+
+obs$.pipe(
+  map(o => o.value) 
+)
+
+
